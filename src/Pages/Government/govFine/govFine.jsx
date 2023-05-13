@@ -56,10 +56,10 @@ const GovFine = () => {
 			}
 		};
 
-		console.log(fineStatement);
+		// console.log(fineStatement);
 		//in order to set the fine amount
 		setFine(fineStatement);
-		console.log(fineAmount);
+		// console.log(fineAmount);
 	}, [fineStatement]);
 
 	const handleFineStatement = (event) => {
@@ -132,7 +132,7 @@ const GovFine = () => {
 						fineInfo: existingArray,
 					})
 						.then(() => {
-							console.log("Document successfully updated!");
+							alert("Fine has been charged");
 						})
 						.catch((error) => {
 							console.log(error);
@@ -152,7 +152,7 @@ const GovFine = () => {
 						fineInfo: fineTemp,
 					});
 
-					console.log("Document has been successfullly added!!");
+					alert("Fine has been charged");
 				}
 
 				//inorder to add the data to the firestore

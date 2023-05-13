@@ -47,10 +47,10 @@ const Fine = () => {
 					// Step 3: Modify the array locally
 					const fineDetails = currdoc.data().fineInfo || []; // If the array field is empty or doesn't exist yet
 					setViolations(fineDetails);
-					fineDetails.map((items) => {
-						console.log("violation:", items.violationStatement);
-						console.log("Amount charged:", items.amountCharged);
-					});
+					// fineDetails.map((items) => {
+					// 	console.log("violation:", items.violationStatement);
+					// 	console.log("Amount charged:", items.amountCharged);
+					// });
 				});
 			} else {
 				alert("No fine charged so far !!");
@@ -115,26 +115,6 @@ const Fine = () => {
 						<span className="text-xl font-semibold">Penalty :</span>
 						<span className="font-medium text-red-500">1000/-</span>
 					</div>
-					<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
-						<span className="text-xl font-semibold">Violation: </span>
-						<span className="text-xl">Over-speeding Penalty :</span>
-						<br></br>
-						<span className="text-xl font-semibold">Penalty :</span>
-						<span className="font-medium text-red-500">1000/-</span>
-					</div>
-					<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
-						<span className="text-xl font-semibold">Violation: </span>
-						<span className="text-xl">Driving Without a Seatbelt</span>
-						<br></br>
-						<span className="text-xl font-semibold">Penalty :</span>
-						<span className="font-medium text-red-500">1000/-</span>
-					</div>
-					<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
-						<span className="text-xl font-semibold">Violation: </span>
-						<span className="text-xl">Using a Mobile Phone While Driving</span>
-						<br></br>
-						<span className="text-xl font-semibold">Penalty :</span>
-						<span className="font-medium text-red-500">5000/-</span>
 					</div> */}
 				</div>
 				<div className="">
