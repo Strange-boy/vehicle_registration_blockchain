@@ -90,7 +90,7 @@ const Confirmation = () => {
 			where("buyerId", "==", username)
 		);
 
-		console.log(username);
+		// console.log(username);
 
 		async function updateChangesToConfirmationDetails() {
 			const querySnapshot = await getDocs(userDetails);

@@ -6,7 +6,16 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 //in order to import fire store related commands
 import { db } from "../../../utils/firebase.js";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+	collection,
+	query,
+	where,
+	getDocs,
+	addDoc,
+	FieldValue,
+	doc,
+	updateDoc,
+} from "firebase/firestore";
 
 const GovFine = () => {
 	const [violations, setViolations] = useState({
@@ -103,7 +112,56 @@ const GovFine = () => {
 			amountCharged: fineAmount,
 		};
 
-		//in order to add details to the firestore
+		//in order to check in the fire store whether the assosciated user exist or not
+		const userRef = collection(db, "fineDetails");
+		const userExist = query(userRef, where("vehicleId", "==", vehicleId));
+
+		const userValidation = async () => {
+			const querySnapshot = await getDocs(userExist);
+
+			if (querySnapshot.size > 0) {
+				querySnapshot.forEach((currdoc) => {
+					// doc.data() is never undefined for query doc snapshots
+					// console.log(currdoc.id, " => ", currdoc.data());
+					// Step 3: Modify the array locally
+					const existingArray = currdoc.data().fineInfo || []; // If the array field is empty or doesn't exist yet
+					existingArray.push(fineDetails);
+
+					const docRef = doc(db, "fineDetails", querySnapshot.docs[0].id);
+					updateDoc(docRef, {
+						fineInfo: existingArray,
+					})
+						.then(() => {
+							console.log("Document successfully updated!");
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				});
+			} else {
+				//in order to add details to the firestore
+				async function addDataToFirestore() {
+					//in order to store the details into an array
+					const fineTemp = [];
+
+					fineTemp.push(fineDetails);
+
+					await addDoc(collection(db, "fineDetails"), {
+						username: ownerId,
+						vehicleId: vehicleId,
+						fineInfo: fineTemp,
+					});
+
+					console.log("Document has been successfullly added!!");
+				}
+
+				//inorder to add the data to the firestore
+				addDataToFirestore();
+			}
+		};
+
+		//in order to check whether a document exists or not
+		userValidation();
 	}
 
 	return (
