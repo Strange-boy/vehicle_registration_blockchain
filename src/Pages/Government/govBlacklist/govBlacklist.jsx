@@ -32,6 +32,7 @@ const GovBlacklist = () => {
 	const govWelcome = "./govWelcome";
 	const govUid = "GHHYwlHErhdC84sKe3MmseCKqvv1";
 	const [currUser, loading] = useAuthState(appAuth);
+	const [vehicleVerified, setVehicleVerified] = useState(false);
 	const [vehicleId, setVehicleId] = useState("NULL");
 	// const [currStatus, setStatus] = useState("PENDING");
 	const [ownerId, setOwnerId] = useState("");
@@ -55,11 +56,18 @@ const GovBlacklist = () => {
 
 		async function getConfirmationDetails() {
 			const querySnapshot = await getDocs(requestDetails);
-			querySnapshot.forEach((doc) => {
-				// doc.data() is never undefined for query doc snapshots
-				// console.log(doc.data());
-				setOwnerId(doc.data().sellerId);
-			});
+
+			if (querySnapshot.size > 0) {
+				querySnapshot.forEach((doc) => {
+					// doc.data() is never undefined for query doc snapshots
+					// console.log(doc.data());
+					setOwnerId(doc.data().sellerId);
+				});
+				setVehicleVerified(true);
+				alert("Vehicle has been verified");
+			} else {
+				alert("The Vehicle has not submitted title changing request");
+			}
 		}
 		// in order to update these changes to profile
 		getConfirmationDetails();
@@ -67,7 +75,7 @@ const GovBlacklist = () => {
 
 	//in order to download all the documents that the seller has submitted
 	function downloadDocuments() {
-		if (vehicleId === "NULL") {
+		if (vehicleVerified == false) {
 			alert("Please verify the vehicle Id");
 			return;
 		}
@@ -133,7 +141,7 @@ const GovBlacklist = () => {
 	//in order to accept the users request for title changing
 	function accept() {
 		//first we need to vehicle id
-		if (vehicleId === "NULL") {
+		if (vehicleVerified == false) {
 			alert("Please verify the vehicle Id");
 			return;
 		}
@@ -178,8 +186,8 @@ const GovBlacklist = () => {
 
 	//in order to reject the request for title changing
 	function reject() {
-		//first we need to vehicle id
-		if (vehicleId === "NULL") {
+		//first we need to  verify the vehicle id
+		if (vehicleVerified == false) {
 			alert("Please verify the vehicle Id");
 			return;
 		}
@@ -243,6 +251,7 @@ const GovBlacklist = () => {
 							type="text"
 							onChange={(event) => {
 								setVehicleId(event.target.value);
+								setVehicleVerified(false);
 							}}
 						/>
 						<button

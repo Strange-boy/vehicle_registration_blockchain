@@ -6,6 +6,8 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import PositiveStatus from "../Components/statusMessage/positiveStatus";
 import NegativeStatus from "../Components/statusMessage/negativeStatus";
 import Verification from "../Components/statusMessage/verification";
+import TitleChangeSuccessful from "../Components/statusMessage/tcSuccess";
+import approvalWaiting from "../Components/statusMessage/approvalWaiting";
 import Loader from "../Components/loader/Loader";
 
 /*Auth Related imports */
@@ -29,6 +31,10 @@ const Status = () => {
 	const [currUser, loading] = useAuthState(appAuth);
 	const [vehicleId, setVehicleId] = useState("XX-XX-XX-XXXX");
 	const [buyerPresent, setBuyerPresent] = useState(false);
+	const [sellerPresent, setSellerPresent] = useState(false);
+	const [tcVerified, setTCVerified] = useState(false);
+	const [waitGovApprov, setGovApprov] = useState(false);
+
 	const [buyerConfirmation, setBuyerConfirmation] = useState("PENDING");
 	const [govConfirmation, setGovConfirmation] = useState("PENDING");
 	const [titleChangeRequest, setRequest] = useState(false);
@@ -53,13 +59,17 @@ const Status = () => {
 
 			async function displayBuyerPresence() {
 				const querySnapshot = await getDocs(userDetails);
-				querySnapshot.forEach((doc) => {
+
+				if (querySnapshot.size > 0) {
 					setBuyerPresent(true);
-				});
+				} else {
+					setSellerPresent(true);
+				}
 			}
 			// in order to update these changes to profile
 			displayBuyerPresence();
 			// console.log("Buyer presence: ", buyerPresent);
+			// console.log("Seller Present:", sellerPresent);
 		} else {
 			console.log("user not logged");
 		}
@@ -88,6 +98,11 @@ const Status = () => {
 				setGovConfirmation(doc.data().confFromGov);
 				// console.log("Title change request:", titleChangeRequest);
 
+				//while the buyer is waiting for Government approval
+				if (buyerConfirmation === "PENDING" && govConfirmation === "PENDING") {
+					setGovApprov(true);
+				}
+
 				//in order to show the document verification for the buyer of the car
 				if (
 					buyerPresent &&
@@ -95,6 +110,13 @@ const Status = () => {
 					govConfirmation === "ACCEPTED"
 				) {
 					setDocVerification(true);
+				}
+
+				if (
+					buyerConfirmation === "ACCEPTED" &&
+					govConfirmation === "ACCEPTED"
+				) {
+					setTCVerified(true);
 				}
 
 				// console.log("Buyer status:", buyerPresent);
@@ -155,7 +177,11 @@ const Status = () => {
 					<h1 className="ml-7 text-2xl">Status</h1>
 					{titleChangeRequest ? (
 						<div>
-							<PositiveStatus />
+							{!tcVerified && (
+								<div>
+									<PositiveStatus />
+								</div>
+							)}
 
 							<div className=" mx-7 mt-7 bg-slate-100 p-5">
 								<h4 className="px-7 text-2xl  ">Title Change Application</h4>
@@ -172,19 +198,33 @@ const Status = () => {
 									<FontAwesomeIcon icon={faArrowRight} className="px-3" />
 								</button>
 							</div>
+
+							{/* in order to display the message while the buyer is waiting for government confirmation */}
+							{buyerPresent && waitGovApprov && (
+								<div>
+									<approvalWaiting />
+								</div>
+							)}
+							{/* in order to display when title change is successful from both side */}
+							{tcVerified && (
+								<div>
+									<TitleChangeSuccessful />
+								</div>
+							)}
+
+							{/* in order to display the  document verification for the buyer */}
+							{docVerification && (
+								<div>
+									<Verification />
+								</div>
+							)}
 						</div>
 					) : (
 						<div>
 							<NegativeStatus />
 						</div>
 					)}
-					{docVerification && (
-						<div>
-							<Verification />
-						</div>
-					)}
 				</div>
-
 				<div className="">
 					<Footer />
 				</div>
