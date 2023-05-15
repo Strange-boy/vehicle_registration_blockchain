@@ -210,7 +210,8 @@ const TitleChange = () => {
 						<FontAwesomeIcon icon={faArrowRight} className="px-3" />
 					</button>
 				</div>
-
+<br className="" />
+<br className="" />
 				{/* Import the footer component  */}
 				<div className="">
 					<Footer />

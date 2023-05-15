@@ -169,7 +169,7 @@ const GovFine = () => {
 			<div className="">
 				<GovNavbar />
 			</div>
-			<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md">
+			<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md min-h-screen">
 				<h3 className="pb-3 text-2xl">Record Fine</h3>
 				<label htmlFor="fine" className="text-xl">
 					Enter user id:

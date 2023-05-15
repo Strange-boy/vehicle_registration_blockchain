@@ -149,6 +149,7 @@ const MyProfile = () => {
 		return (
 			<div className="">
 				<Navbar />
+				<div className="min-h-screen">
 				<div className="m-10 p-10">
 					{editing ? (
 						<button
@@ -231,6 +232,7 @@ const MyProfile = () => {
 							Cancel
 						</button>
 					)}
+				</div>
 				</div>
 				<Footer />
 			</div>

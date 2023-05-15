@@ -38,7 +38,7 @@ const Welcome = () => {
         </div>
 
         {/* Content and image part of the welcome page */}
-        <div className="relative h-screen">
+        <div className="relative min-h-screen">
           <div className="md:flex">
             {/* Content */}
             <div className="md:w-1/2">
@@ -80,7 +80,7 @@ const Welcome = () => {
             </div>
           </div>
         </div>
-        <div className="mx-auto w-1/2 p-5">
+        <div className="md:mx-auto w-1/2 p-5">
           <Link to="/fine">
             <button className="w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold">
               Fine Record
