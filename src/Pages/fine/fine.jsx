@@ -73,6 +73,7 @@ const Fine = () => {
 				<div className="">
 					<Navbar />
 				</div>
+				<div className="min-h-screen">
 				<label htmlFor="" className="block text-xl mt-10 ml-10">
 					Registration Number <span className="text-red-600">*</span>
 				</label>
@@ -116,6 +117,7 @@ const Fine = () => {
 						<span className="font-medium text-red-500">1000/-</span>
 					</div>
 					</div> */}
+				</div>
 				</div>
 				<div className="">
 					<Footer />

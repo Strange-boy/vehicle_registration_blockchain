@@ -144,7 +144,7 @@ const Status = () => {
 				<div className="">
 					<Navbar />
 				</div>
-
+				<div className="min-h-screen">
 				<button
 					onClick={() => {
 						window.location.pathname = titleChange;
@@ -225,9 +225,12 @@ const Status = () => {
 						</div>
 					)}
 				</div>
+				</div>
 				<div className="">
 					<Footer />
 				</div>
+
+
 			</div>
 		);
 };

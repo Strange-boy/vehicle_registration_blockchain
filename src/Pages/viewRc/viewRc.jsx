@@ -34,10 +34,12 @@ const ViewRc = () => {
   //if the user logs in successfully
   else
     return (
+
       <div className="">
         <div className="">
           <Navbar />
         </div>
+        
         <div className="mt-5 items-center p-10 md:flex">
           <h1 className="text-2xl">Registration Certificate</h1>
 
@@ -50,10 +52,12 @@ const ViewRc = () => {
           </button>
         </div>
 
-        <div className="" ref={ref}>
-          <RcBook />
+        <div className="flex justify-center">
+          <div className="" ref={ref}>
+            <RcBook />
+          </div>
         </div>
-
+        <br className="" />
         <div className="">
           <Footer />
         </div>

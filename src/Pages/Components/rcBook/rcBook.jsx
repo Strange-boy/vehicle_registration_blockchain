@@ -3,7 +3,7 @@ import Emblem from "../../assets/Emblem.png";
 
 const RcBook = () => {
   return (
-    <div className="w-fit items-center justify-center rounded-md border border-slate-800 shadow-md">
+    <div className="w-fit items-center justify-center rounded-md border border-slate-800 shadow-md overflow-hidden">
       <div className="flex w-full items-center justify-start bg-slate-100">
         <div className="">
           <img src={Emblem} alt="IndianEmblem" className="h-40 w-28" />
