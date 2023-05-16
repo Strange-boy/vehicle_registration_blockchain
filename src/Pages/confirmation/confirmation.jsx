@@ -70,7 +70,7 @@ const Confirmation = () => {
 				})
 					.then(() => {
 						console.log("Document successfully updated!");
-						window.location.pathname = statusPage;
+						// window.location.pathname = statusPage;
 					})
 					.catch((error) => {
 						console.log(error);
