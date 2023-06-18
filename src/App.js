@@ -11,6 +11,7 @@ import Confirmation from "./Pages/confirmation/confirmation";
 import Fine from "./Pages/fine/fine";
 import GovFooter from "./Pages/Government/gov_Component/govFooter/govFooter";
 import GovNavbar from "./Pages/Government/gov_Component/govNavbar/govNavbar";
+import GovConfirmation from "./Pages/Government/govConfirmation/govConfirmation";
 import GovBlacklist from "./Pages/Government/govBlacklist/govBlacklist";
 import GovFine from "./Pages/Government/govFine/govFine";
 import GovIssueRc from "./Pages/Government/govIssueRc/govIssueRc";
@@ -18,12 +19,6 @@ import GovWelcome from "./Pages/Government/govWelcome/govWelcome";
 import IntermediaryPage from "./Pages/intermediaryPage/intermediaryPage";
 import ForgotPassword from "./Pages/login/forgotPassword";
 import Login from "./Pages/login/login";
-// import GovWelcome from "./Pages/Government/govWelcome/govWelcome";
-// import GovFooter from "./Pages/Government/gov_Component/govFooter/govFooter";
-// import GovNavbar from "./Pages/Government/gov_Component/govNavbar/govNavbar";
-// import GovBlacklist from "./Pages/Government/govBlacklist/govBlacklist";
-// import GovIssueRc from "./Pages/Government/govIssueRc/govIssueRc";
-// import Confirmation from "./Pages/confirmation/confirmation";
 import MyProfile from "./Pages/myProfile/myProfile";
 import Signup from "./Pages/signup/signup";
 import Status from "./Pages/status/status";
@@ -85,10 +80,13 @@ function App() {
 					<Route path="/govWelcome" element={<GovWelcome />} />
 				</Routes>
 				<Routes>
-					<Route path="/govBlacklist" element={<GovBlacklist />} />
+					<Route path="/govConfirmation" element={<GovConfirmation />} />
 				</Routes>
 				<Routes>
 					<Route path="/govIssue" element={<GovIssueRc />} />
+				</Routes>
+				<Routes>
+					<Route path="/govBlacklist" element={<GovBlacklist />} />
 				</Routes>
 				<Routes>
 					<Route path="/confirmation" element={<Confirmation />} />

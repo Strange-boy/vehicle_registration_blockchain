@@ -26,7 +26,7 @@ const GovVerify = () => {
                             <p className="pl-2 text-xl">Joel</p>
                         </div>
                         <div className="flex ml-auto px-10 ">
-                            <Link to="/govBlacklist">
+                            <Link to="/govConfirmation">
                                 <button className="text-xl px-10 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Verify</button>
 
                             </Link>
