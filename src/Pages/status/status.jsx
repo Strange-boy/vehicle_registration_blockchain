@@ -40,6 +40,8 @@ const Status = () => {
 	const [titleChangeRequest, setRequest] = useState(false);
 	const [docVerification, setDocVerification] = useState(false);
 
+	const [currVehicle, setCurrVehicle] = useState("");
+	const [buyVehicle, setBuyVehicle] = useState("");
 	const routeLoginPage = "./login";
 	const titleChange = "/titleChange";
 	const govUid = "GHHYwlHErhdC84sKe3MmseCKqvv1";
@@ -49,10 +51,10 @@ const Status = () => {
 		const userExist = auth.currentUser;
 		if (userExist) {
 			const username = userExist.email;
-
+			console.log("user says hi");
 			const userDetails = query(
 				collection(db, "confirmationDetails"),
-				where("buyerId", "==", username)
+				where("sellerId", "==", username)
 			);
 
 			// console.log(username);
@@ -61,15 +63,13 @@ const Status = () => {
 				const querySnapshot = await getDocs(userDetails);
 
 				if (querySnapshot.size > 0) {
-					setBuyerPresent(true);
-				} else {
 					setSellerPresent(true);
+				} else {
+					setBuyerPresent(true);
 				}
 			}
 			// in order to update these changes to profile
 			displayBuyerPresence();
-			// console.log("Buyer presence: ", buyerPresent);
-			// console.log("Seller Present:", sellerPresent);
 		} else {
 			console.log("user not logged");
 		}
@@ -80,6 +80,29 @@ const Status = () => {
 			alert("Please enter the vehicle Id");
 			return;
 		}
+
+		//first we have to check whether the vehicle is related to
+		// a particular seller or buyer
+		// const username = auth.currentUser;
+		// const currentVehicle = query(
+		// 	collection(db, "users"),
+		// 	where("Username", "==", username)
+		// );
+
+		// const fetchCurrentVehicle = async () => {
+		// 	const querySnapshot = await getDocs(currentVehicle);
+		// 	querySnapshot.forEach((doc) => {
+		// 		// doc.data() is never undefined for query doc snapshots
+		// 		setCurrVehicle(doc.data().VehicleId);
+		// 	});
+		// };
+
+		// fetchCurrentVehicle();
+
+		// const buyingVehicle = query(
+		// 	collection(db, "users"),
+		// 	where("VehicleId", "==", vehicleId)
+		// );
 
 		// console.log(vehicleId);
 		//now we have to fetch all the details related to the vehicle id
@@ -119,10 +142,6 @@ const Status = () => {
 					setTCVerified(true);
 				}
 
-				// console.log("Buyer status:", buyerPresent);
-				// console.log("Buyer confirmation:", buyerConfirmation);
-				// console.log("Government confirmation:", govConfirmation);
-
 				//finally we have to make title change display
 				setRequest(true);
 			});
@@ -145,92 +164,94 @@ const Status = () => {
 					<Navbar />
 				</div>
 				<div className="min-h-screen">
-				<button
-					onClick={() => {
-						window.location.pathname = titleChange;
-					}}
-					className="ml-7 mt-7 flex items-center justify-center rounded-md bg-slate-600 p-2 text-xl text-white "
-				>
-					Apply for title change
-					<FontAwesomeIcon icon={faArrowRight} className="px-3" />
-				</button>
+					<button
+						onClick={() => {
+							if (sellerPresent) {
+								alert("Title change request is under progress!!");
+							} else {
+								window.location.pathname = titleChange;
+							}
+						}}
+						className="ml-7 mt-7 flex items-center justify-center rounded-md bg-slate-600 p-2 text-xl text-white "
+					>
+						Apply for title change
+						<FontAwesomeIcon icon={faArrowRight} className="px-3" />
+					</button>
 
-				<label htmlFor="" className="block text-xl mt-10 ml-10">
-					Registration Number <span className="text-red-600">*</span>
-				</label>
-				<input
-					className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
-					type="text"
-					onChange={(event) => {
-						setVehicleId(event.target.value);
-						setRequest(false);
-					}}
-				/>
-				<button
-					className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
-					onClick={showTitleChangeStatus}
-				>
-					Show Status
-				</button>
+					<label htmlFor="" className="block text-xl mt-10 ml-10">
+						Registration Number <span className="text-red-600">*</span>
+					</label>
+					<input
+						className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+						type="text"
+						onChange={(event) => {
+							setVehicleId(event.target.value);
+							setRequest(false);
+						}}
+					/>
+					<button
+						className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
+						onClick={showTitleChangeStatus}
+					>
+						Show Status
+					</button>
 
-				<div className="mx-7 mt-5 rounded-md border border-slate-400 p-5 shadow-md">
-					<h1 className="ml-7 text-2xl">Status</h1>
-					{titleChangeRequest ? (
-						<div>
-							{!tcVerified && (
-								<div>
-									<PositiveStatus />
+					<div className="mx-7 mt-5 rounded-md border border-slate-400 p-5 shadow-md">
+						<h1 className="ml-7 text-2xl">Status</h1>
+						{titleChangeRequest ? (
+							<div>
+								{!tcVerified && (
+									<div>
+										<PositiveStatus />
+									</div>
+								)}
+
+								<div className=" mx-7 mt-7 bg-slate-100 p-5">
+									<h4 className="px-7 text-2xl  ">Title Change Application</h4>
+									<p className="px-7 py-5 text-xl">
+										Confirmation from new owner: {buyerConfirmation}
+									</p>
+									<p className="px-7 pb-5 text-xl">
+										Validation from Government: {govConfirmation}
+									</p>
+									<p className="px-7 py-5 text-xl">Vehicle Id: {vehicleId}</p>
+
+									<button className=" ml-auto flex items-center justify-end rounded-md bg-slate-600 p-2 text-xl text-white ">
+										Change title
+										<FontAwesomeIcon icon={faArrowRight} className="px-3" />
+									</button>
 								</div>
-							)}
 
-							<div className=" mx-7 mt-7 bg-slate-100 p-5">
-								<h4 className="px-7 text-2xl  ">Title Change Application</h4>
-								<p className="px-7 py-5 text-xl">
-									Confirmation from new owner: {buyerConfirmation}
-								</p>
-								<p className="px-7 pb-5 text-xl">
-									Validation from Government: {govConfirmation}
-								</p>
-								<p className="px-7 py-5 text-xl">Vehicle Id: {vehicleId}</p>
+								{/* in order to display the message while the buyer is waiting for government confirmation */}
+								{buyerPresent && waitGovApprov && (
+									<div>
+										<approvalWaiting />
+									</div>
+								)}
+								{/* in order to display when title change is successful from both side */}
+								{tcVerified && (
+									<div>
+										<TitleChangeSuccessful />
+									</div>
+								)}
 
-								<button className=" ml-auto flex items-center justify-end rounded-md bg-slate-600 p-2 text-xl text-white ">
-									Change title
-									<FontAwesomeIcon icon={faArrowRight} className="px-3" />
-								</button>
+								{/* in order to display the  document verification for the buyer */}
+								{docVerification && (
+									<div>
+										<Verification />
+									</div>
+								)}
 							</div>
-
-							{/* in order to display the message while the buyer is waiting for government confirmation */}
-							{buyerPresent && waitGovApprov && (
-								<div>
-									<approvalWaiting />
-								</div>
-							)}
-							{/* in order to display when title change is successful from both side */}
-							{tcVerified && (
-								<div>
-									<TitleChangeSuccessful />
-								</div>
-							)}
-
-							{/* in order to display the  document verification for the buyer */}
-							{docVerification && (
-								<div>
-									<Verification />
-								</div>
-							)}
-						</div>
-					) : (
-						<div>
-							<NegativeStatus />
-						</div>
-					)}
-				</div>
+						) : (
+							<div>
+								<NegativeStatus />
+							</div>
+						)}
+					</div>
 				</div>
 				<div className="">
 					<Footer />
 				</div>
-
-
 			</div>
 		);
 };

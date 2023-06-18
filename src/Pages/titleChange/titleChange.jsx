@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../Components/navbar/navbar";
 import Footer from "../Components/footer/footer";
 import Loader from "../Components/loader/Loader";
@@ -8,10 +8,10 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 /*Auth code */
 import { useAuthState } from "react-firebase-hooks/auth";
 import { appAuth, db } from "../../utils/firebase";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // inorder to add firestore functionality
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
 //in order to add the storage functionality to firestore
 import { getStorage, ref } from "firebase/storage";
@@ -34,6 +34,37 @@ const TitleChange = () => {
 
 	const auth = getAuth();
 	const authUser = auth.currentUser;
+
+	//in order to fetch the vehicle id of the owner
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (userExist) => {
+			if (userExist) {
+				console.log("user is logged in");
+				const username = userExist.email;
+				//we have to fetch the name based on the username
+				const userDetails = query(
+					collection(db, "users"),
+					where("Username", "==", username)
+				);
+
+				async function fetchUserDetails() {
+					const querySnapshot = await getDocs(userDetails);
+					querySnapshot.forEach((doc) => {
+						// doc.data() is never undefined for query doc snapshots
+						setVehicleId(doc.data().VehicleId);
+					});
+				}
+
+				//in order to set the user details with the defined state
+				fetchUserDetails();
+			} else {
+				console.log("user not logged");
+			}
+		});
+
+		// Unsubscribe when the component unmounts
+		return unsubscribe;
+	}, []);
 
 	//in order to fetch the seller's username
 	if (authUser !== null) {
@@ -58,10 +89,6 @@ const TitleChange = () => {
 		//inorder to add the data to the firestore
 		addDataToFirestore();
 		console.log("Successfully added data to firestore");
-
-		// console.log(residence);
-		// console.log(fitness);
-		// console.log(insurance);
 
 		//in order to add residence file to firestore
 		const residenceFileUploaded = () => {
@@ -166,9 +193,9 @@ const TitleChange = () => {
 					<input
 						id="vehicleRegNo"
 						name="vehicleRegNo"
-						onChange={(event) => setVehicleId(event.target.value)}
 						className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
-						type="text"
+						value={vehicleId}
+						readOnly
 					/>
 					<strong className="block py-5">Upload documents required</strong>
 					<label htmlFor="" className="block text-xl ">
@@ -210,8 +237,8 @@ const TitleChange = () => {
 						<FontAwesomeIcon icon={faArrowRight} className="px-3" />
 					</button>
 				</div>
-<br className="" />
-<br className="" />
+				<br className="" />
+				<br className="" />
 				{/* Import the footer component  */}
 				<div className="">
 					<Footer />

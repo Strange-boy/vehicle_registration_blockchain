@@ -31,6 +31,37 @@ const Fine = () => {
 
 	const auth = getAuth();
 
+	//in order to fetch the vehicle id of the owner
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, (userExist) => {
+			if (userExist) {
+				console.log("user is logged in");
+				const username = userExist.email;
+				//we have to fetch the name based on the username
+				const userDetails = query(
+					collection(db, "users"),
+					where("Username", "==", username)
+				);
+
+				async function fetchUserDetails() {
+					const querySnapshot = await getDocs(userDetails);
+					querySnapshot.forEach((doc) => {
+						// doc.data() is never undefined for query doc snapshots
+						setVehicleId(doc.data().VehicleId);
+					});
+				}
+
+				//in order to set the user details with the defined state
+				fetchUserDetails();
+			} else {
+				console.log("user not logged");
+			}
+		});
+
+		// Unsubscribe when the component unmounts
+		return unsubscribe;
+	}, []);
+
 	//in order to find the fine charged
 	function showFineCharged() {
 		//in order to check in the fire store whether the assosciated user exist or not
@@ -74,42 +105,43 @@ const Fine = () => {
 					<Navbar />
 				</div>
 				<div className="min-h-screen">
-				<label htmlFor="" className="block text-xl mt-10 ml-10">
-					Registration Number <span className="text-red-600">*</span>
-				</label>
-				<input
-					className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
-					type="text"
-					onChange={(event) => {
-						setVehicleId(event.target.value);
-						setViolations([
-							{ violationStatement: "No Violations", amountCharged: 0 },
-						]);
-						// setRequest(false);
-					}}
-				/>
-				<button
-					className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
-					onClick={showFineCharged}
-				>
-					Fine Charged
-				</button>
-				<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md">
-					<h3 className="pb-3 text-2xl">Fine Record</h3>
-					<div>
-						{violations.map((item) => (
-							<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
-								<span className="text-xl font-semibold">Violation : </span>
-								<span className="text-xl">{item.violationStatement}</span>
-								<br></br>
-								<span className="text-xl font-semibold">Penalty : </span>
-								<span className="font-medium text-red-500">
-									{item.amountCharged}/-
-								</span>
-							</div>
-						))}
-					</div>
-					{/* <div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
+					<label htmlFor="" className="block text-xl mt-10 ml-10">
+						Registration Number <span className="text-red-600">*</span>
+					</label>
+					<input
+						className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+						type="text"
+						// onChange={(event) => {
+						// 	setViolations([
+						// 		{ violationStatement: "No Violations", amountCharged: 0 },
+						// 	]);
+						// 	// setRequest(false);
+						// }}
+						value={vehicleId}
+						readOnly
+					/>
+					<button
+						className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
+						onClick={showFineCharged}
+					>
+						Fine Charged
+					</button>
+					<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md">
+						<h3 className="pb-3 text-2xl">Fine Record</h3>
+						<div>
+							{violations.map((item) => (
+								<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
+									<span className="text-xl font-semibold">Violation : </span>
+									<span className="text-xl">{item.violationStatement}</span>
+									<br></br>
+									<span className="text-xl font-semibold">Penalty : </span>
+									<span className="font-medium text-red-500">
+										{item.amountCharged}/-
+									</span>
+								</div>
+							))}
+						</div>
+						{/* <div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
 						<span className="text-xl font-semibold">Violation: </span>
 						<span className="text-xl">Triple Riding on Two-wheeler</span>
 						<br></br>
@@ -117,7 +149,7 @@ const Fine = () => {
 						<span className="font-medium text-red-500">1000/-</span>
 					</div>
 					</div> */}
-				</div>
+					</div>
 				</div>
 				<div className="">
 					<Footer />
