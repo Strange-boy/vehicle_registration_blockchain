@@ -74,42 +74,42 @@ const Fine = () => {
 					<Navbar />
 				</div>
 				<div className="min-h-screen">
-					<label htmlFor="" className="block text-xl mt-10 ml-10">
-						Registration Number <span className="text-red-600">*</span>
-					</label>
-					<input
-						className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
-						type="text"
-						onChange={(event) => {
-							setVehicleId(event.target.value);
-							setViolations([
-								{ violationStatement: "No Violations", amountCharged: 0 },
-							]);
-							// setRequest(false);
-						}}
-					/>
-					<button
-						className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
-						onClick={showFineCharged}
-					>
-						Fine Charged
-					</button>
-					<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md">
-						<h3 className="pb-3 text-2xl">Fine Record</h3>
-						<div>
-							{violations.map((item) => (
-								<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
-									<span className="text-xl font-semibold">Violation : </span>
-									<span className="text-xl">{item.violationStatement}</span>
-									<br></br>
-									<span className="text-xl font-semibold">Penalty : </span>
-									<span className="font-medium text-red-500">
-										{item.amountCharged}/-
-									</span>
-								</div>
-							))}
-						</div>
-						{/* <div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
+				<label htmlFor="" className="block text-xl mt-10 ml-10">
+					Registration Number <span className="text-red-600">*</span>
+				</label>
+				<input
+					className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+					type="text"
+					onChange={(event) => {
+						setVehicleId(event.target.value);
+						setViolations([
+							{ violationStatement: "No Violations", amountCharged: 0 },
+						]);
+						// setRequest(false);
+					}}
+				/>
+				<button
+					className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
+					onClick={showFineCharged}
+				>
+					Fine Charged
+				</button>
+				<div className="m-10 rounded-sm border border-slate-200 p-10 shadow-md">
+					<h3 className="pb-3 text-2xl">Fine Record</h3>
+					<div>
+						{violations.map((item) => (
+							<div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
+								<span className="text-xl font-semibold">Violation : </span>
+								<span className="text-xl">{item.violationStatement}</span>
+								<br></br>
+								<span className="text-xl font-semibold">Penalty : </span>
+								<span className="font-medium text-red-500">
+									{item.amountCharged}/-
+								</span>
+							</div>
+						))}
+					</div>
+					{/* <div className="mb-5 rounded-md bg-slate-100 px-5 py-3">
 						<span className="text-xl font-semibold">Violation: </span>
 						<span className="text-xl">Triple Riding on Two-wheeler</span>
 						<br></br>
@@ -117,7 +117,7 @@ const Fine = () => {
 						<span className="font-medium text-red-500">1000/-</span>
 					</div>
 					</div> */}
-					</div>
+				</div>
 				</div>
 				<div className="">
 					<Footer />
