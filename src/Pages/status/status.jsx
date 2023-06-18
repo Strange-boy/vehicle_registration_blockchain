@@ -40,8 +40,12 @@ const Status = () => {
 	const [titleChangeRequest, setRequest] = useState(false);
 	const [docVerification, setDocVerification] = useState(false);
 
-	const [currVehicle, setCurrVehicle] = useState("");
-	const [buyVehicle, setBuyVehicle] = useState("");
+	const [vehiclePresent, setVehiclePresent] = useState(true);
+	const [currUserId, setCurrUserId] = useState("");
+	const [sellerId, setSellerId] = useState("");
+	const [buyerId, setBuyerId] = useState("");
+	const [firstClick, setFirstClick] = useState(true);
+
 	const routeLoginPage = "./login";
 	const titleChange = "/titleChange";
 	const govUid = "GHHYwlHErhdC84sKe3MmseCKqvv1";
@@ -51,7 +55,10 @@ const Status = () => {
 		const userExist = auth.currentUser;
 		if (userExist) {
 			const username = userExist.email;
-			console.log("user says hi");
+			setCurrUserId(username);
+			// console.log(username);
+
+			// console.log("user says hi");
 			const userDetails = query(
 				collection(db, "confirmationDetails"),
 				where("sellerId", "==", username)
@@ -76,33 +83,16 @@ const Status = () => {
 	});
 
 	function showTitleChangeStatus() {
-		if (vehicleId === "XX-XX-XX-XXXX") {
+		if (vehicleId === "XX-XX-XX-XXXX" || vehicleId === "") {
 			alert("Please enter the vehicle Id");
 			return;
 		}
 
+		console.log("entered hello");
+
 		//first we have to check whether the vehicle is related to
 		// a particular seller or buyer
-		// const username = auth.currentUser;
-		// const currentVehicle = query(
-		// 	collection(db, "users"),
-		// 	where("Username", "==", username)
-		// );
-
-		// const fetchCurrentVehicle = async () => {
-		// 	const querySnapshot = await getDocs(currentVehicle);
-		// 	querySnapshot.forEach((doc) => {
-		// 		// doc.data() is never undefined for query doc snapshots
-		// 		setCurrVehicle(doc.data().VehicleId);
-		// 	});
-		// };
-
-		// fetchCurrentVehicle();
-
-		// const buyingVehicle = query(
-		// 	collection(db, "users"),
-		// 	where("VehicleId", "==", vehicleId)
-		// );
+		//seller is already checked so we have to check for the buyer
 
 		// console.log(vehicleId);
 		//now we have to fetch all the details related to the vehicle id
@@ -110,6 +100,28 @@ const Status = () => {
 			collection(db, "confirmationDetails"),
 			where("vehicleId", "==", vehicleId)
 		);
+
+		async function displayBuyerStatus() {
+			const querySnapshot = await getDocs(requestDetails);
+
+			if (querySnapshot.size > 0) {
+				// console.log(querySnapshot[0].data().buyerId);
+				querySnapshot.forEach((doc) => {
+					// doc.data() is never undefined for query doc snapshots
+					setBuyerId(doc.data().buyerId);
+					setSellerId(doc.data().sellerId);
+
+					// const obj = {
+					// 	buyerID: doc.data().buyerId,
+					// 	sellerID: doc.data().sellerId,
+					// };
+
+					// return obj;
+				});
+			} else {
+				setVehiclePresent(false);
+			}
+		}
 
 		async function fetchTitleChangeDetails() {
 			const querySnapshot = await getDocs(requestDetails);
@@ -147,8 +159,31 @@ const Status = () => {
 			});
 		}
 
-		// in order to update these changes to profile
-		fetchTitleChangeDetails();
+		async function handleDisplayBuyerStatus() {
+			await displayBuyerStatus();
+			if ((buyerId === "" && sellerId === "") || firstClick === true) {
+				console.log("first click");
+				setFirstClick(false);
+			} else {
+				console.log(vehiclePresent);
+				console.log(buyerId);
+				console.log(sellerId);
+				console.log(currUserId);
+
+				if (vehiclePresent === false) {
+					alert("This Vehicle has not submitted any title change request");
+					return;
+				} else if (buyerId !== currUserId && sellerId !== currUserId) {
+					alert("you are not allowed to this vehicle's details");
+					return;
+				} else {
+					// in order to update these changes to profile
+					fetchTitleChangeDetails();
+				}
+			}
+		}
+
+		handleDisplayBuyerStatus();
 	}
 
 	//to be shown during loading
@@ -187,6 +222,8 @@ const Status = () => {
 						onChange={(event) => {
 							setVehicleId(event.target.value);
 							setRequest(false);
+							setVehiclePresent(true);
+							setFirstClick(true);
 						}}
 					/>
 					<button

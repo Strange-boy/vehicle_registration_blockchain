@@ -11,14 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 //firestore related commands
 import { db } from "../../utils/firebase";
-import {
-	collection,
-	query,
-	where,
-	getDocs,
-	doc,
-	updateDoc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Fine = () => {
 	const [vehicleId, setVehicleId] = useState("");
@@ -73,8 +66,6 @@ const Fine = () => {
 
 			if (querySnapshot.size > 0) {
 				querySnapshot.forEach((currdoc) => {
-					// doc.data() is never undefined for query doc snapshots
-					// console.log(currdoc.id, " => ", currdoc.data());
 					// Step 3: Modify the array locally
 					const fineDetails = currdoc.data().fineInfo || []; // If the array field is empty or doesn't exist yet
 					setViolations(fineDetails);

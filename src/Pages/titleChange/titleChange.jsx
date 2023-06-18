@@ -20,7 +20,8 @@ import { uploadBytes } from "firebase/storage";
 const TitleChange = () => {
 	/*Inorder to mantain the state of the user */
 	const [user, loading] = useAuthState(appAuth);
-	let sellerId; //inorder to set the seller id
+	// let sellerId; //inorder to set the seller id
+	const [sellerId, setSellerId] = useState("");
 	const [buyer, setBuyer] = useState("");
 	const [ownerName, setOwnerName] = useState("");
 	const [buyerName, setBuyerName] = useState("");
@@ -38,12 +39,13 @@ const TitleChange = () => {
 	const auth = getAuth();
 	const authUser = auth.currentUser;
 
-	//in order to fetch the vehicle id of the owner
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (userExist) => {
 			if (userExist) {
 				console.log("user is logged in");
 				const username = userExist.email;
+				setSellerId(username);
+				console.log(username);
 				//we have to fetch the name based on the username
 				const userDetails = query(
 					collection(db, "users"),
@@ -71,12 +73,12 @@ const TitleChange = () => {
 	}, []);
 
 	//in order to fetch the seller's username
-	if (authUser !== null) {
-		authUser.providerData.forEach((profile) => {
-			sellerId = profile.email;
-			// console.log("seller email:", sellerId);
-		});
-	}
+	// if (authUser !== null) {
+	// 	authUser.providerData.forEach((profile) => {
+	// 		sellerId = profile.email;
+	// 		// console.log("seller email:", sellerId);
+	// 	});
+	// }
 
 	//in order to handle the vehicle verfication
 	function handleUserVerfication() {
@@ -123,6 +125,9 @@ const TitleChange = () => {
 
 		//inorder to add the data to the firestore
 		addDataToFirestore();
+		console.log(sellerId);
+		console.log(ownerName);
+
 		console.log("Successfully added data to firestore");
 
 		//in order to add residence file to firestore

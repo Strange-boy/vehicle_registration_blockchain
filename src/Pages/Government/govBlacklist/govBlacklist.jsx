@@ -261,7 +261,7 @@ const GovBlacklist = () => {
 							Verify Vehicle Id
 						</button>
 						<label htmlFor="" className="mt-5 block text-xl">
-							Owner's Username <span className="text-red-600">*</span>
+							Owner's Id
 						</label>
 						<input
 							className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
@@ -269,6 +269,16 @@ const GovBlacklist = () => {
 							value={ownerId}
 							readOnly
 						/>
+						<label htmlFor="" className="mt-5 block text-xl">
+							Owner's Name
+						</label>
+						<input
+							className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+							type="text"
+							value={ownerId}
+							readOnly
+						/>
+
 						<div className="mt-5">
 							<label htmlFor="" className=" mt-5 text-xl">
 								Is Blacklisted? <span className="text-red-600">*</span>
