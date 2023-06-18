@@ -30,7 +30,6 @@ import Status from "./Pages/status/status";
 import TitleChange from "./Pages/titleChange/titleChange";
 import ViewRc from "./Pages/viewRc/viewRc";
 import Welcome from "./Pages/welcome/welcome";
-import GovVerify from "./Pages/Government/govVerify/gov_verify";
 
 function App() {
 	return (
@@ -107,9 +106,6 @@ function App() {
 				</Routes>
 				<Routes>
 					<Route path="/govfine" element={<GovFine />} />
-				</Routes>
-				<Routes>
-					<Route path="/govverify" element={<GovVerify />} />
 				</Routes>
 			</BrowserRouter>
 		</div>
