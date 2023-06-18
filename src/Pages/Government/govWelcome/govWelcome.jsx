@@ -72,7 +72,7 @@ const GovWelcome = () => {
 					<div className="w-1/2 p-5">
 						<button
 							onClick={() => {
-								window.location.pathname = blacklistRoute;
+								window.location.pathname = "/govverify";
 							}}
 							className=" w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold"
 						>
