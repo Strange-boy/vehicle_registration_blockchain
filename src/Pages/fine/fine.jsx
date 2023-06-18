@@ -111,16 +111,6 @@ const Fine = () => {
 					<input
 						className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
 						type="text"
-<<<<<<< HEAD
-						// onChange={(event) => {
-						// 	setViolations([
-						// 		{ violationStatement: "No Violations", amountCharged: 0 },
-						// 	]);
-						// 	// setRequest(false);
-						// }}
-						value={vehicleId}
-						readOnly
-=======
 						onChange={(event) => {
 							setVehicleId(event.target.value);
 							setViolations([
@@ -128,7 +118,6 @@ const Fine = () => {
 							]);
 							// setRequest(false);
 						}}
->>>>>>> refs/remotes/origin/main
 					/>
 					<button
 						className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
