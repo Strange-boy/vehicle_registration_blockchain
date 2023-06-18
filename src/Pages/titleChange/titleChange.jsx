@@ -22,7 +22,10 @@ const TitleChange = () => {
 	const [user, loading] = useAuthState(appAuth);
 	let sellerId; //inorder to set the seller id
 	const [buyer, setBuyer] = useState("");
+	const [ownerName, setOwnerName] = useState("");
+	const [buyerName, setBuyerName] = useState("");
 	const [vehicleId, setVehicleId] = useState("");
+	const [verifiedBuyer, setVerifiedBuyer] = useState(false);
 	const routeLoginPage = "./login";
 	const govUid = "GHHYwlHErhdC84sKe3MmseCKqvv1";
 
@@ -51,6 +54,7 @@ const TitleChange = () => {
 					const querySnapshot = await getDocs(userDetails);
 					querySnapshot.forEach((doc) => {
 						// doc.data() is never undefined for query doc snapshots
+						setOwnerName(doc.data().Name);
 						setVehicleId(doc.data().VehicleId);
 					});
 				}
@@ -74,11 +78,42 @@ const TitleChange = () => {
 		});
 	}
 
+	//in order to handle the vehicle verfication
+	function handleUserVerfication() {
+		if (buyer === "") {
+			alert("Please enter the buyer details");
+			return;
+		}
+
+		//in order to check in the fire store whether the assosciated user exist or not
+		const userRef = collection(db, "users");
+		const userExist = query(userRef, where("Username", "==", buyer));
+
+		const userValidation = async () => {
+			const querySnapshot = await getDocs(userExist);
+
+			querySnapshot.forEach((doc) => {
+				// doc.data() is never undefined for query doc snapshots
+				setBuyerName(doc.data().Name);
+				setVerifiedBuyer(true);
+			});
+		};
+
+		userValidation();
+	}
+
 	function updatingVehicleInfo() {
+		if (verifiedBuyer === false) {
+			alert("Please verify the buyer");
+			return;
+		}
+
 		//in order to add the data to firestore
 		async function addDataToFirestore() {
 			await addDoc(collection(db, "confirmationDetails"), {
+				buyerName: buyerName,
 				buyerId: buyer,
+				sellerName: ownerName,
 				sellerId: sellerId,
 				vehicleId: vehicleId,
 				confFromGov: "PENDING",
@@ -178,14 +213,30 @@ const TitleChange = () => {
 
 				<div className="ml-7 mb-10 p-5">
 					<label htmlFor="" className="block text-xl">
-						Username of new owner <span className="text-red-600">*</span>
+						Username of buyer <span className="text-red-600">*</span>
 					</label>
 					<input
 						id="newOwner"
 						name="newOwner"
 						onChange={(event) => setBuyer(event.target.value)}
-						className="mt-2 mb-5 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+						className="mb-1 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
 						type="text"
+					/>
+					<button
+						className="mt-3 mb-5 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
+						onClick={handleUserVerfication}
+					>
+						Verify details
+					</button>
+					<label htmlFor="" className="block text-xl">
+						Buyer Name
+					</label>
+					<input
+						id="buyerName"
+						name="buyerName"
+						className="mt-2 mb-3 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+						value={buyerName}
+						readOnly
 					/>
 					<label htmlFor="" className="block text-xl">
 						Vehicle Registration Number<span className="text-red-600">*</span>
