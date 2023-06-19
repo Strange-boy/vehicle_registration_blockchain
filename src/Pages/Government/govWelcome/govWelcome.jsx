@@ -10,7 +10,7 @@ import { appAuth } from "../../../utils/firebase.js";
 
 const GovWelcome = () => {
 	const loginRoute = "/login";
-	const blacklistRoute = "/govBlacklist";
+	const blacklistRoute = "/govConfirmation";
 	const [currUser, loading] = useAuthState(appAuth);
 	const govUid = "GHHYwlHErhdC84sKe3MmseCKqvv1";
 
@@ -76,14 +76,19 @@ const GovWelcome = () => {
 							}}
 							className=" w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold"
 						>
-							Title Verification and Blacklisting
+							Title Verification
 						</button>
 					</div>
 				</div>
-				<div className="md:mx-auto w-1/2 p-5">
-					<Link to="/govFine">
+				<div className="md:mx-auto flex">
+					<Link to="/govFine" className="w-full p-5">
 						<button className="w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold">
 							Record Fine
+						</button>
+					</Link>
+					<Link to="/govBlacklist " className="w-full p-5">
+						<button className="w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold">
+							Blacklist a vehicle
 						</button>
 					</Link>
 				</div>
