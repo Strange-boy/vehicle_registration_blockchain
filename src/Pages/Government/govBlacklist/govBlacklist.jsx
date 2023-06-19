@@ -9,17 +9,17 @@ const GovBlacklist = () => {
         const vehicleid = document.getElementById('vehicleid').value;
         if(vehicleid === 'KL-12-AB-2020'){
             setVerify('Vehicle with given id is existing');
-            document.getElementById('vehicleid').color = "green";
+            document.getElementById('verify-alert').style.color = 'green';
         }
         else{
             setVerify('Vehicle with given id is not existing');
-            document.getElementById('vehicleid').color = "red";
+            document.getElementById('verify-alert').style.color = 'red';
         }
     }
      //function to handle blacklisting
     const handleblacklist = () => {
         if(verify === 'Vehicle with given id is existing'){
-            alert('Vehicle is blacklisted successfully');
+            alert('RC book is updated successfully');
             document.getElementById('vehicleid').value = "";
             setVerify("");
         }
@@ -45,7 +45,7 @@ const GovBlacklist = () => {
                     className="mt-5 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white" onClick={handleverify}
                 >
                     Verify
-                </button> <p className='text-xl'>{verify}</p>
+                </button> <p id='verify-alert' className='text-xl'>{verify}</p>
                 <br />
                 <div>
                     <label htmlFor="" className=" mt-5 text-xl">
