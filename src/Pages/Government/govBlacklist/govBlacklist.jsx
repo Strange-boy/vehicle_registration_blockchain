@@ -3,6 +3,30 @@ import GovNavbar from "../gov_Component/govNavbar/govNavbar.jsx";
 import GovFooter from "../gov_Component/govFooter/govFooter.jsx";
 
 const GovBlacklist = () => {
+    const [verify, setVerify] = React.useState("");//state to store the verification result
+    //function to handle verification
+    const handleverify = () => {
+        const vehicleid = document.getElementById('vehicleid').value;
+        if(vehicleid === 'KL-12-AB-2020'){
+            setVerify('Vehicle with given id is existing');
+            document.getElementById('vehicleid').color = "green";
+        }
+        else{
+            setVerify('Vehicle with given id is not existing');
+            document.getElementById('vehicleid').color = "red";
+        }
+    }
+     //function to handle blacklisting
+    const handleblacklist = () => {
+        if(verify === 'Vehicle with given id is existing'){
+            alert('Vehicle is blacklisted successfully');
+            document.getElementById('vehicleid').value = "";
+            setVerify("");
+        }
+        else{
+            alert('Please verify the vehicle id first');
+        }
+    }
 
     return (
         <div>
@@ -14,15 +38,14 @@ const GovBlacklist = () => {
                 <input
                     className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
                     type="text"
-                    value=''
                     id='vehicleid'
                     placeholder="KL-12-AB-2020"
                 />
                 <button
-                    className="mt-5 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
+                    className="mt-5 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white" onClick={handleverify}
                 >
                     Verify
-                </button>
+                </button> <p className='text-xl'>{verify}</p>
                 <br />
                 <div>
                     <label htmlFor="" className=" mt-5 text-xl">
@@ -49,8 +72,8 @@ const GovBlacklist = () => {
                         Yes
                     </label>
                     <br />
-                    <button className='mt-11 rounded-md bg-slate-800 text-xl text-white p-2 px-11'>
-                        Submit
+                    <button className='mt-11 rounded-md bg-slate-800 text-xl text-white p-2 px-11' onClick={handleblacklist}>
+                        Submit 
                     </button>
                 </div>
                 <br />
