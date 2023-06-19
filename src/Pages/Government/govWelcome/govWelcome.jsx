@@ -88,7 +88,7 @@ const GovWelcome = () => {
 					</Link>
 					<Link to="/govBlacklist " className="w-full p-5">
 						<button className="w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold">
-						 Blacklist a vehicle
+							Blacklist a vehicle
 						</button>
 					</Link>
 				</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import GovNavbar from "../gov_Component/govNavbar/govNavbar.jsx";
 import GovFooter from "../gov_Component/govFooter/govFooter.jsx";
 
@@ -82,5 +82,4 @@ const GovBlacklist = () => {
         </div>
     );
 }
-
 export default GovBlacklist;

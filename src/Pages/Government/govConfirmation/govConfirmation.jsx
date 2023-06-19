@@ -39,7 +39,7 @@ const GovConfirmation = () => {
 	const [legitDocuments, setLegitDocuments] = useState(false);
 	const [acceptTerms, setAcceptTerms] = useState(false);
 
-	//in order to handle the vehicle verfication
+	///in order to handle the vehicle verfication
 	function handleVerfication() {
 		if (vehicleId === "NULL") {
 			alert("Please enter the vehicle Id");
@@ -56,7 +56,7 @@ const GovConfirmation = () => {
 
 		async function getConfirmationDetails() {
 			const querySnapshot = await getDocs(requestDetails);
-			
+
 			if (querySnapshot.size > 0) {
 				querySnapshot.forEach((doc) => {
 					// doc.data() is never undefined for query doc snapshots
@@ -261,7 +261,7 @@ const GovConfirmation = () => {
 							Verify Vehicle Id
 						</button>
 						<label htmlFor="" className="mt-5 block text-xl">
-							Owner's Username <span className="text-red-600">*</span>
+							Owner's Id
 						</label>
 						<input
 							className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
@@ -269,6 +269,16 @@ const GovConfirmation = () => {
 							value={ownerId}
 							readOnly
 						/>
+						<label htmlFor="" className="mt-5 block text-xl">
+							Owner's Name
+						</label>
+						<input
+							className="mt-2 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
+							type="text"
+							value={ownerId}
+							readOnly
+						/>
+
 						<div className="mt-5">
 							<label htmlFor="" className=" mt-5 text-xl">
 								Is Blacklisted? <span className="text-red-600">*</span>

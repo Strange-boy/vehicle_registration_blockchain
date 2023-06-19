@@ -11,14 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 //firestore related commands
 import { db } from "../../utils/firebase";
-import {
-	collection,
-	query,
-	where,
-	getDocs,
-	doc,
-	updateDoc,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Fine = () => {
 	const [vehicleId, setVehicleId] = useState("");
@@ -73,8 +66,6 @@ const Fine = () => {
 
 			if (querySnapshot.size > 0) {
 				querySnapshot.forEach((currdoc) => {
-					// doc.data() is never undefined for query doc snapshots
-					// console.log(currdoc.id, " => ", currdoc.data());
 					// Step 3: Modify the array locally
 					const fineDetails = currdoc.data().fineInfo || []; // If the array field is empty or doesn't exist yet
 					setViolations(fineDetails);
@@ -111,13 +102,8 @@ const Fine = () => {
 					<input
 						className="mt-5 ml-10 rounded-md border border-slate-600 py-1 px-3 text-xl outline-none"
 						type="text"
-						onChange={(event) => {
-							setVehicleId(event.target.value);
-							setViolations([
-								{ violationStatement: "No Violations", amountCharged: 0 },
-							]);
-							// setRequest(false);
-						}}
+						value={vehicleId}
+						readOnly
 					/>
 					<button
 						className="mt-5 ml-10 block h-10 w-40 rounded-md bg-slate-800 text-xl text-white"
