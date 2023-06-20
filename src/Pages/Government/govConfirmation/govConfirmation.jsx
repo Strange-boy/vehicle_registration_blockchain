@@ -234,7 +234,7 @@ const GovConfirmation = () => {
 				<div className="mb-5 ">
 					<GovNavbar />
 				</div>
-				<div className="m-7 mx-10 rounded-md border border-slate-200 p-20 shadow-xl">
+				<div className="m-7 mx-10">
 					<h1 className="ml-7 mb-2 text-2xl">Title Change Application</h1>
 					<p className="ml-7 text-xl">
 						Fields marked&nbsp;"<strong className="text-red-600">*</strong>
@@ -269,7 +269,7 @@ const GovConfirmation = () => {
 							value={ownerId}
 							readOnly
 						/>
-						<label htmlFor="" className="mt-5 block text-xl">
+						{/* <label htmlFor="" className="mt-5 block text-xl">
 							Owner's Name
 						</label>
 						<input
@@ -302,11 +302,16 @@ const GovConfirmation = () => {
 							/>
 							<label htmlFor="yes" className="p-3 text-xl">
 								Yes
-							</label>
+							</label> */}
+							<br className="" />
 							<p className="mt-6 text-xl">
-								Given below is the current registration certificate :{" "}
+								Given below is the current registration certificate {" "}
 							</p>
+							<br className="" />
+							<div className="flex justify-center">
 							<RcBook />
+							</div>
+							<br className="" />
 							<p className="ml-7 text-xl font-black">
 								Download and verify the documents
 							</p>
@@ -363,12 +368,12 @@ const GovConfirmation = () => {
 								Accept
 							</button>
 						</div>
-						<button className="float-right my-5 mt-10 block h-10 w-40 items-center justify-center rounded-md bg-slate-800 text-center text-xl text-white">
+						{/* <button className="float-right my-5 mt-10 block h-10 w-40 items-center justify-center rounded-md bg-slate-800 text-center text-xl text-white">
 							Submit
 							<FontAwesomeIcon icon={faArrowRight} className="px-3" />
-						</button>
+						</button> */}
 					</div>
-				</div>
+				{/* </div> */}
 
 				{/* Import the footer component  */}
 				<div className="">

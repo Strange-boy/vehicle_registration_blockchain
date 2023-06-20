@@ -220,7 +220,7 @@ const Confirmation = () => {
 				<div className="">
 					<Navbar />
 				</div>
-				<div className="m-10 border border-slate-100 p-10 shadow-md">
+				<div className="m-10 ">
 					<h1 className="ml-7 mb-2 text-2xl text-black">
 						Title Change Confirmation
 					</h1>
@@ -231,7 +231,11 @@ const Confirmation = () => {
 					<p className="mt-6 text-xl">
 						Given below is the current registration certificate :{" "}
 					</p>
-					<RcBook />
+					<br className="" />
+					<div className="flex justify-center">
+						<RcBook />
+					</div>
+					<br className="" />
 					<p className="ml-7 text-xl font-black">
 						Download and verify the documents
 					</p>
