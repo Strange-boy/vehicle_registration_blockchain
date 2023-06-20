@@ -35,7 +35,7 @@ const ViewRc = () => {
   else
     return (
 
-      <div className="">
+      <div className="flex flex-col min-h-screen">
         <div className="">
           <Navbar />
         </div>
@@ -58,7 +58,7 @@ const ViewRc = () => {
           </div>
         </div>
         <br className="" />
-        <div className="">
+        <div className="mt-auto">
           <Footer />
         </div>
       </div>

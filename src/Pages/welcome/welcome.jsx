@@ -80,7 +80,7 @@ const Welcome = () => {
             </div>
           </div>
         </div>
-        <div className="md:mx-auto w-1/2 p-5">
+        <div className="md:mx-auto w-1/2 py-3">
           <Link to="/fine">
             <button className="w-full border border-slate-800 pt-2 pb-20 pl-2 text-left font-semibold">
               Fine Record
